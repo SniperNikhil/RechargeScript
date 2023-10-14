@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge Script</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: solid black 2px;
+            margin: 20px;
+            padding-inline: 10px;
+            border-radius: 10px;
+        }
+
+        .log {
+            color: #e7134b;
+        }
+
+        h1 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #FFD700, #FF6347, #00BFFF, #32CD32, #9400D3);
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .upi-input {
+            box-sizing: border-box;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            padding: 10px 12px;
+            width: 100%;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .pay-button {
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .pay-button:hover {
+            background-color: #2980b9;
+        }
+
+        .telegram {
+            background-color: #6907e0;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        /* Responsive font size adjustment for mobile */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .upi-input,
+            .pay-button {
+                font-size: 20px;
+            }
+        }
+
+        /* Styles for the image */
+        .outside-image {
+            width: 80%;
+            max-width: 400px;
+            margin-top: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            /* Center text horizontally */
+        }
+
+        .charge {
+            color: #f80707;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            /* Center text horizontally */
+        }
+    </style>
+    <style>
+        .registration-link {
+            font-size: 18px;
+            text-decoration: none;
+            background-color: #f8f8f8;
+            color: #110404;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .registration-link:hover {
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .registration-link {
+                font-size: 20px;
+            }
+
+            .registration-link:hover {
+                font-size: 22px;
+            }
+        }
+
+        .alert {
+            text-align: center;
+            width: 90%;
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #0056b3;
+            border-radius: 4px;
+        }
+
+        .note {
+            color: #007bff;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <img src="images.png" class="outside-image">
+    <h1>Recharge Script</h1>
+    <hr>
+    <div class="alert">
+        {{success}}
+    </div>
+    <h1 class="log">Register</h1>
+    <hr>
+    <form action="/register" method="post" style="width:100%">       
+        <input type="email" class="upi-input" placeholder="Enter Email" name="email" required>
+        <input type="password" class="upi-input" placeholder="Enter Password" name="password" required>
+        <button class="pay-button">REGISTER</button>
+    </form>
+    <br>
+    <a href="/" class="registration-link">Click here to Login</a>
+    <hr>
+    <h1 class="note">"You can provide false credentials, but please remember your registered credentials to access your
+        recharge status or to recharge."</h1><br>
+    <button class="telegram" id="rechargeButton">Recharge Boosters</button><br>
+    
+    <script>
+        // Get the button element
+        var button = document.getElementById('rechargeButton');
+
+        // Add a click event listener to open the link
+        button.addEventListener('click', function () {
+            window.location.href = 'https://t.me/RechargeBoosters';
+        });
+    </script>
+</body>
+
+</html>

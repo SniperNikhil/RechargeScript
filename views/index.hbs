@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recharge Script</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .upi-input {
+            box-sizing: border-box;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            padding: 10px 12px;
+            width: 100%;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+
+            .upi-input,
+            .pay-button {
+                font-size: 20px;
+            }
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            /* Center text horizontally */
+        }
+
+        .pay-button {
+            background-color: #3498db;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .pay-button:hover {
+            background-color: #2980b9;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #FFD700, #FF6347, #00BFFF, #32CD32, #9400D3);
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        h5 {
+            font-size: 25px;
+            color: #3504fb;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .telegram {
+            background-color: #6907e0;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .beautiful-button {
+            background-color: #c58921;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Change the button background color on hover */
+        .beautiful-button:hover {
+            background-color: #c85d1f;
+        }
+
+        .alert {
+            text-align: center;
+            width: 100%;
+            padding: 15px;
+            background-color: #b7c90f;
+            /* Blue background color */
+            color: #fff;
+
+            /* Darker blue border */
+            border-radius: 4px;
+            /* Rounded corners */
+        }
+    </style>
+</head>
+
+<body>
+    <section id="prices">
+        <div class="container">
+
+            <center>
+                <h2 class="section-title">Recharge Script</h2>
+            </center>
+
+            <div class="row">
+                <div class="col-md-4 pr-md-0 mt-md-4 mt-0">
+                    <div class="price-item bg-white rounded shadow-dark text-center">
+                        <h2>Notice:{{notice}}</h2>
+                        <hr>
+                        <a href="userstatus" class="beautiful-button">Recharge Status</a>
+                        <hr>
+                        <h5>Jio[1gb]:10rs</h5>
+                        <hr>
+                        <h5>Jio[1.5gb]:13rs</h5>
+                        <hr>
+                        <h5>Airtel/Vi[1gb]:13rs </h5>
+                        <hr>
+                        <label
+                            style="display: flex;justify-content: left;color: red;margin-left: 13px;margin-bottom: 5px;">Please
+                            Check Available Stocks Before Paying</label>
+                        <img class="qrcode" src="images/4.jpg">
+                    </div>
+                </div>
+
+                <div class="col-md-4 px-md-0 my-4 my-md-0">
+                    <div class="price-item bg-white rounded shadow-dark text-center ">
+                        <h1>Available Stocks:{{stockss}}</h1>
+                        <hr>
+                        
+                        <div class="alert">{{success}}</div> 
+                        <hr>
+                                              
+                        <form action="/recharge" method="post" style="width:100%"  enctype="multipart/form-data">
+                            <label style="display: flex;justify-content: left;color: red;">Add Payment
+                                ScreenShot</label>
+                            <input type="file" class="upi-input" placeholder="Add Payment ScreenShot" name="payment"
+                                required>
+                            
+                            <label style="display: flex;justify-content: left;color: red;">Enter Order ID Please note it is long numbers,copy it when you pay</label>
+                            <input type="text" class="upi-input" placeholder="Enter Order ID" name="orderid"
+                                required>
+
+                            <label style="display: flex;justify-content: left;color: red;">Enter number for
+                                Recharge</label>
+                            <input type="text" class="upi-input" placeholder="Enter Number for Recharge" name="number"
+                               maxlength="10" pattern="[0-9]{10}" required>
+
+                            <label style="display: flex;justify-content: left;color: red;">Choose Operator</label>
+                            <select class="upi-input" name="operator" required>
+                                <option value="">Choose Operator</option>
+                                <option value="Airtel">Airtel</option>
+                                <option value="Vi">Vi</option>
+                                <option value="Jio">Jio</option>
+                            </select>
+
+                            <label style="display: flex;justify-content: left;color: red;">In case any problem money
+                                will be refunded to this upi id</label>
+                            <input type="text" class="upi-input" placeholder="Enter Upi ID" name="upiid" required >
+                            <button class="pay-button">Submit</button>
+                        </form>
+                        <hr>
+                        <h5>Join our Telegram Channel</h5>
+                        <button class="telegram" id="rechargeButton">Recharge Boosters</button><br>
+                    </div>
+                </div>
+                <script>
+                    // Get the button element
+                    var button = document.getElementById('rechargeButton');
+
+                    // Add a click event listener to open the link
+                    button.addEventListener('click', function () {
+                        window.location.href = 'https://t.me/RechargeBoosters';
+                    });
+                </script>
+                <div class="col-md-4 pl-md-0 mt-md-4 mt-0">
+                    <div class="price-item bg-white rounded shadow-dark text-center">
+                        <h1>Note</h1>
+                        <hr>
+                        <div
+                            style="background-color: #1fb3d1; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); color: #ffffff;text-align: left;font-weight: 25px;">
+                            <p style="font-size: 20px; margin: 0;">1) Any Problem? Contact admin <a
+                                    style="text-decoration: none;color: rgb(17, 5, 244);font-weight: bold;"
+                                    href="https://t.me/DMRech" target="_blank">@DMRech</a> on Telegram Channel.</p>
+                            <p style="font-size: 20px; margin: 0;">2) Recharge will be done manually by admin, please
+                                have patience.</p>
+                            <p style="font-size: 20px; margin: 0;">3) Please add Correct information.</p>
+                            <p style="font-size: 20px; margin: 0;">4) In case of any problem with your Recharge, the
+                                money will be refunded at the given UPI ID.</p>
+                            <p style="font-size: 20px; margin: 0;">5) Since no payment gateways are accepting new
+                                merchants, automated recharge is not possible at the backend.</p>
+                            <p class="note" style="text-align: center; font-size: 18px; margin-top: 20px;">Thank you for
+                                your understanding.</p>
+                        </div>
+                        <hr>
+                        <h5>Click to Logout</h5>
+                        <form action="/logout" method="post">
+                            <button type="submit" class="telegram">Logout</button><br>
+                        </form>       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
