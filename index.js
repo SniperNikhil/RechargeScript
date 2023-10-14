@@ -31,7 +31,9 @@ app.get('/register', (req, res) => {
 
 app.get('/adminpending', auth1, async (req, res) => {
     try {
-        var total = await customers.find({ "status": "ACTIVE" }).countDocuments();
+        var total = await customers.find({}).countDocuments();
+
+        //console.log(total)
         const query = { status: "Pending" };
 
         const docs = await recharge.find(query).exec();
@@ -63,20 +65,23 @@ app.get('/adminsuccess', auth1, async (req, res) => {
 app.get('/userstatus', auth, (req, res) => {
     const email = req.cookies.email;
 
-    recharge.find({ email }, (err, docs) => {
-        if (err) {
-            console.error(err);
-        } else {
-            if (docs) {
+    recharge.find({ email })
+        .then(docs => {
+            if (docs && docs.length > 0) {
                 res.render("userstatus", {
                     list: docs,
                 });
             } else {
-                console.log("No document found with the email: ");
+                res.render("userstatus", {
+                    list: docs,
+                });
             }
-        }
-    });
+        })
+        .catch(err => {
+            console.error(err);
+        });
 });
+
 
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -84,7 +89,7 @@ app.get('/index', auth, async (req, res) => {
     try {
         const result = await stocks.findOne(
             { stocks: "admin" },
-            {notice: 1, url: 1, website: 1, _id: 0 }
+            { notice: 1, url: 1, website: 1, _id: 0 }
         );
 
         const url = result.url;
@@ -117,17 +122,17 @@ app.get('/index', auth, async (req, res) => {
             }
 
             var stockss = await fetchBoosterValue();
-            console.log(notice)
+            //console.log(notice)
             if (stockss > 50) {
                 res.render("index", {
                     notice,
                     stockss,
-                    
+
                 });
             } else {
                 res.status(401).send("No Stocks Available Please Wait for few hours");
             }
-        }else if(website == "Noobra"){
+        } else if (website == "Noobra") {
             console.log("Currently not available");
             res.status(200).send("Currently not available");
         } else {

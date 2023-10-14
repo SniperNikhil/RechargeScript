@@ -150,15 +150,16 @@ app.post("/login", async (req, res) => {
 
                 const query = { status: "Pending" };
 
-                recharge.find(query, (err, docs) => {
-                    if (err) {
-                        console.error(err);
-                    } else {
+                recharge.find(query)
+                    .then(docs => {
                         res.render("adminpending", {
                             list: docs,
                         });
-                    }
-                });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
             }
         }
         else {
@@ -220,56 +221,48 @@ app.post("/recharge", upload.single('payment'), async (req, res) => {
         recharges.status = "Pending";
         recharges.orderid = req.body.orderid;
 
-        await recharges.save((err, doc) => {
-            if (!err)
-                res.render('index', {
-                    success: "Request Submitted Successfully",
-                })
-            else {
-                console.log(err);
-            }
-        });
+        try {
+            const doc = await recharges.save();
+            res.render('index', {
+                success: "Request Submitted Successfully",
+            });
+        } catch (err) {
+            console.log(err);
+            // Handle the error as needed, such as sending an error response to the client
+            res.status(500).send("Internal Server Error");
+        }
     }
-
-
 })
 
-app.post("/status", (req, res) => {
+app.post("/status", async (req, res) => {
     console.log(req.body.imageName);
-    function updateStatusAndFetchPendingStatus(req, res, newStatus) {
+
+    async function updateStatusAndFetchPendingStatus(newStatus) {
         const query = { payment: req.body.imageName };
 
-        recharge.updateOne(
-            query,
-            { $set: { status: newStatus } },
-            (err, result) => {
-                if (err) {
-                    console.error('Error updating document:', err);
-                } else {
-                    const pendingQuery = { status: "Pending" };
+        try {
+            await recharge.updateOne(query, { $set: { status: newStatus } });
 
-                    recharge.find(pendingQuery, (err, docs) => {
-                        if (err) {
-                            console.error(err);
-                        } else {
-                            res.render("adminpending", {
-                                list: docs,
-                            });
-                        }
-                    });
-                }
-            }
-        );
+            const pendingQuery = { status: "Pending" };
+            const docs = await recharge.find(pendingQuery);
+
+            res.render("adminpending", {
+                list: docs,
+            });
+        } catch (err) {
+            console.error('Error updating document:', err);
+        }
     }
 
     if (req.body.success) {
-        updateStatusAndFetchPendingStatus(req, res, "Success");
+        await updateStatusAndFetchPendingStatus("Success");
     } else if (req.body.refund) {
-        updateStatusAndFetchPendingStatus(req, res, "Refund");
+        await updateStatusAndFetchPendingStatus("Refund");
     } else {
-        updateStatusAndFetchPendingStatus(req, res, "Reject");
+        await updateStatusAndFetchPendingStatus("Reject");
     }
-})
+});
+
 
 app.post("/stocks", async (req, res) => {
     await stocks.updateOne(
