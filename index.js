@@ -95,7 +95,6 @@ app.get('/index', auth, async (req, res) => {
         const url = result.url;
         const website = result.website;
         const notice = result.notice;
-
         if (website == "White Devil") {
             async function fetchBoosterValue() {
                 try {

@@ -121,8 +121,41 @@ app.post("/login", async (req, res) => {
                             res.status(401).send("No Stocks Available Please Wait for few hours");
                         }
                     } else if (website == "Noobra") {
-                        console.log("Currently not available");
-                        res.status(200).send("Currently not available");
+                        async function fetchBoosterValue() {
+                            try {
+                                const response = await axios.get(url);
+                                const html = response.data;
+            
+                                const $ = cheerio.load(html);
+                                const boosterValue = $('font[color="blue"][size="4px"]').text();
+            
+                                // Extract the number from the string, considering the format ":BOOSTER LEFT = xxx:-"
+                                const regex = /(\d+)/;
+                                const matches = boosterValue.match(regex);
+            
+                                if (matches) {
+                                    const boosterLeft = matches[0];
+                                    //console.log('BOOSTER LEFT:', boosterLeft);
+                                    return boosterLeft;
+                                } else {
+                                    console.log('BOOSTER value not found.');
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        }
+            
+                        var stockss = await fetchBoosterValue();
+                        //console.log(notice)
+                        if (stockss > 50) {
+                            res.render("index", {
+                                notice,
+                                stockss,
+            
+                            });
+                        } else {
+                            res.status(401).send("No Stocks Available Please Wait for few hours");
+                        }
                     } else {
                         console.log("Currently not available");
                         res.status(200).send("No Stocks Available Please Wait for few hours");
